@@ -1,0 +1,28 @@
+#information .mint-datetime-picker .picker-toolbar {
+    height: 43px;
+    background: #F9F9F9
+}
+
+#information .mint-datetime-picker .picker-toolbar span {
+    height: 43px;
+    width: 65px;
+    font-size: 14px;
+}
+
+#information .mint-datetime-picker .picker-toolbar .mint-datetime-cancel {
+    color: #000000
+}
+
+#information .mint-datetime-picker .picker-toolbar .mint-datetime-confirm {
+    color: #DD2F21
+}
+
+#adress .mint-switch .mint-switch-core {
+    border-color: #d9d9d9;
+    background-color: #d9d9d9;
+}
+
+#adress .mint-switch-input:checked+.mint-switch-core {
+    border-color: #c41335;
+    background-color: #c41335;
+}

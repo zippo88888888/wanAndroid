@@ -1,0 +1,36 @@
+.flex-row { /* 水平等比 */
+  display: flex;
+  flex-direction: row;
+}
+.flex-column { /* 垂直等比 */
+  display: flex;
+  flex-direction: column;
+}
+.ct { /* 水平、垂直居中 */
+  align-items: center;
+  justify-content: center;
+}
+.flex {
+  flex: 1;
+}
+.bg-color {
+  background: #f2f2f2;
+}
+.line {
+  width: 100%;
+  height: 1px;
+  position: relative;
+  background: #f2f2f2;
+}
+.m-t {
+  margin-top: 7px;
+}
+.m-b {
+  margin-bottom: 7px;
+}
+.m-l {
+  margin-left: 7px;
+}
+.m-r {
+  margin-right: 7px;
+}
