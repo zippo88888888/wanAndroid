@@ -27,6 +27,9 @@ import VueAxios from 'vue-axios'
 
 import Req from './util/http.js'
 
+// EventBus 总线
+// Vue.prototype.eventBus = new Vue()
+
 Vue.prototype.ROOT_URL = 'https://gank.io/api/v2/'
 Vue.prototype.http = Req
 Vue.prototype.axios = Aaxios

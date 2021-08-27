@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolBar :title='title' :show-left-pic="false"/>
+    <ToolBar :title='title' :show-left-pic="false" :show-right-txt="true" :right-txt="rightTitle" :right-click="rightClick"/>
     <div class="banner">
       <swiper :options="swiperOption">
         <swiperSlide class="swiper-slide" v-for="item in bannerList" :key="item.image" >
@@ -55,12 +55,13 @@ export default {
   data () {
     return {
       title: '首页',
+      rightTitle: '推荐',
       swiperOption: {
-        disableOnInteraction: false, // 用户操作后是否禁止自动循环
-        speed: 1000, // 切换速度，即slider自动滑动开始到结束的时间（单位ms）
-        loop: true, // 循环切换
-        autoplay: true,
-        delay: 3000, // 自动循环时间
+        autoplay: { // 自动切换
+          delay: 3000,
+          stopOnLastSlide: false,
+          disableOnInteraction: false // 用户操作后就停止自动播放
+        },
         pagination: { // 显示分页
           el: '.swiper-pagination',
           clickable: true // 允许分页点击跳转
@@ -99,6 +100,11 @@ export default {
     }
   },
   methods: {
+    rightClick: function () {
+      this.$router.push({
+        path: '/sd'
+      })
+    },
     oneClick: function (item, index) {
       if (this.category_type_index === index) {
         console.log('相同状态，不做任何出来')
@@ -202,6 +208,7 @@ export default {
   .banner-item {
     width: 100%;
     height: 150px;
+    object-fit: cover;
   }
   .pop {
     position: sticky;
@@ -275,6 +282,7 @@ export default {
     height: 80px;
     position: absolute;
     top: 10px;
+    object-fit: cover;
   }
   .item-right {
     position: relative;

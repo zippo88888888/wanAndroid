@@ -34,3 +34,21 @@
 .m-r {
   margin-right: 7px;
 }
+.m-bar {
+  margin-top: 57px;
+}
+.txt-1 {
+  /* 单行显示省略号 */
+  max-lines: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.txt-2 {
+  /* 多行显示省略号 */
+  text-overflow: ellipsis;
+  display: -webkit-box; /** 将对象作为伸缩盒子模型显示 **/
+  -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+  -webkit-line-clamp: 2; /** 显示的行数 **/
+  overflow: hidden;  /** 隐藏超出的内容 **/
+}

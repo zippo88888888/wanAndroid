@@ -72,8 +72,9 @@ export default {
   .bar {
     width: 100%;
     height: 50px;
-    background: #c41335;
+    background: #3379FD;
     position: fixed;
+    top: 0;
     z-index: 999;
   }
   .left {
@@ -92,7 +93,7 @@ export default {
     color: white;
     position: absolute;
     top: 50%;
-    font-size: 13px;
+    font-size: 12px;
     transform: translate(7px, -50%);
   }
   .title {
@@ -101,12 +102,14 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: bold;
   }
   .right {
     position: absolute;
     right: 0;
     height: 100%;
+    width: 100px;
   }
   .right img {
     width: 18px;
@@ -119,7 +122,7 @@ export default {
     color: white;
     position: absolute;
     top: 50%;
-    font-size: 13px;
+    font-size: 12px;
     right: 12px;
     transform: translate(0, -50%);
   }
