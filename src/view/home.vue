@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolBar :title='title' :show-left-pic="false" :show-right-txt="true" :right-txt="rightTitle" :right-click="rightClick"/>
+    <ToolBar :title='title' :show-left-pic="false"/>
     <div class="banner">
       <swiper :options="swiperOption">
         <swiperSlide class="swiper-slide" v-for="item in bannerList" :key="item.image" >
@@ -21,7 +21,7 @@
       </div>
       <div class="line"/>
     </div>
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+    <van-pull-refresh class="list-pr" v-model="isRefresh" @refresh="onRefresh">
       <van-list v-model="isLoadMore" :finished="noLoadMoreData" finished-text="没有更多了" @load="onLoadmore">
         <div class="list m-t">
           <div class="list-item m-r m-l m-b" v-for="item in infoList" :key="item._id">
@@ -36,26 +36,26 @@
         </div>
       </van-list>
     </van-pull-refresh>
+    <!--<BNView :current-click="bnvItemClick" :current-click-again="bnvItemClickAgain"/>-->
   </div>
 </template>
 
 <script>
-// 引入
-// import { Toast } from 'mint-ui'
 import Vue from 'vue'
 import { PullRefresh, List } from 'vant'
 import 'swiper/dist/css/swiper.css'
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import ToolBar from '../components/ToolBar'
+import BNView from '../components/BNView'
 Vue.use(PullRefresh)
 Vue.use(List)
 export default {
   name: 'home',
-  components: {ToolBar, swiper, swiperSlide},
+  components: {BNView, ToolBar, swiper, swiperSlide},
   data () {
     return {
       title: '首页',
-      rightTitle: '推荐',
+      bnvIndex: 2,
       swiperOption: {
         autoplay: { // 自动切换
           delay: 3000,
@@ -100,11 +100,6 @@ export default {
     }
   },
   methods: {
-    rightClick: function () {
-      this.$router.push({
-        path: '/sd'
-      })
-    },
     oneClick: function (item, index) {
       if (this.category_type_index === index) {
         console.log('相同状态，不做任何出来')

@@ -9,7 +9,7 @@
       <span>收货人手机号</span>
       <input class="flex" type="text" placeholder="请输入收货人手机号" maxlength="11" v-model="phone"/>
     </div>
-    <div class="ae-l ae-l-height flex-row ct">
+    <div class="ae-l ae-l-height flex-row ct" v-on:click="selectedArea">
       <span>地址信息</span>
       <input class="flex txt-1" type="text" readonly placeholder="请选择" maxlength="50" v-model="address"/>
       <img src="../../assets/ic_jt_y.png">
@@ -29,6 +29,7 @@
       <van-switch v-model="isDefault" size="20px" />
     </div>
     <div class="ae-bottom"><button>确认</button></div>
+    <AreaDialog :show-dialog="areaDialogShow" @closeAreaDialog="closeAreaDialog" @selectedAreaResult="selectedAreaResult"/>
   </div>
 </template>
 
@@ -36,14 +37,16 @@
 import Vue from 'vue'
 import ToolBar from '../../components/ToolBar'
 import {Dialog, Toast, Switch} from 'vant'
+import AreaDialog from '../../components/AreaDialog'
 Vue.use(Dialog)
 Vue.use(Toast)
 Vue.use(Switch)
 export default {
   name: 'address_edit',
-  components: {ToolBar},
+  components: {AreaDialog, ToolBar},
   data () {
     return {
+      areaDialogShow: false,
       title: '',
       id: '',
       name: '',
@@ -52,6 +55,18 @@ export default {
       addressInfo: '',
       code: '',
       isDefault: false
+    }
+  },
+  methods: {
+    selectedArea: function () {
+      this.areaDialogShow = true
+    },
+    selectedAreaResult: function (province, city, area, code) {
+      this.address = province + city + area
+      this.areaDialogShow = false
+    },
+    closeAreaDialog: function () {
+      this.areaDialogShow = false
     }
   },
   mounted () {

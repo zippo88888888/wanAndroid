@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import mainIndex from '../view/main_index'
 import home from '../view/home'
 import question from '../view/question'
 import setup from '../view/setup'
@@ -21,8 +22,30 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: '首页',
-      component: home
+      name: 'mainIndex',
+      component: mainIndex,
+      children: [
+        {
+          path: '/home',
+          name: '首页',
+          component: home
+        },
+        {
+          path: '/sd',
+          name: '推荐',
+          component: Sd
+        },
+        {
+          path: '/car',
+          name: '购物车',
+          component: Car
+        },
+        {
+          path: '/my',
+          name: '个人中心',
+          component: my
+        }
+      ]
     },
     {
       path: '/question',
@@ -33,21 +56,6 @@ export default new Router({
       path: '/setup',
       name: '体系',
       component: setup
-    },
-    {
-      path: '/my',
-      name: '个人中心',
-      component: my
-    },
-    {
-      path: '/sd',
-      name: '推荐',
-      component: Sd
-    },
-    {
-      path: '/car',
-      name: '购物车',
-      component: Car
     },
     {
       path: '/corder',

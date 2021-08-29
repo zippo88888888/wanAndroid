@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolBar :title="title" style="position: relative" :right-txt="car" :right-click="carClick" :show-right-txt="true"/>
+    <ToolBar :title="title" style="position: relative" :show-left-pic="false"/>
     <swiper class="banner" ref="banner" :options="bannerOption">
       <swiper-slide v-for="item in bannerList" :key="item.url">
         <img class="banner-item" alt="" v-bind:src="item.url"/>
@@ -12,7 +12,7 @@
            v-for="(item,index) in pageTitleList" v-on:click="pageItemClick(index)">{{item}}
       </div>
     </div>
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+    <van-pull-refresh class="list-pr" v-model="isRefresh" @refresh="onRefresh">
       <van-list v-model="isLoadMore" :finished="noLoadMore" finished-text="没有更多了" @load="onLoadMore">
         <swiper class="swiper" :options="swiperOption" ref="mySwiper" @slideChangeTransitionStart="pageChanged">
           <swiper-slide v-for="(item,index) in pageTitleList" :key="index">
@@ -46,7 +46,6 @@ export default {
     const that = this
     return {
       title: '推荐',
-      car: '购物车',
       bannerList: [{url: require('../../assets/banner1.png')}, {url: require('../../assets/banner2.jpg')},
         {url: require('../../assets/banner3.jpg')}, {url: require('../../assets/banner4.jpg')},
         {url: require('../../assets/banner5.jpg')}],
@@ -69,7 +68,7 @@ export default {
               index = 0
             }
             that.bannerIndex = index
-            console.log('swiper bannerIndex ----------->>> ' + that.bannerIndex)
+            // console.log('swiper bannerIndex ----------->>> ' + that.bannerIndex)
           }
         }
       },
@@ -88,11 +87,6 @@ export default {
     }
   },
   methods: {
-    carClick: function () {
-      this.$router.push({
-        path: '/car'
-      })
-    },
     pageItemClick: function (i) {
       if (i === this.pageIndex) {
         console.log('相同不做任何处理')

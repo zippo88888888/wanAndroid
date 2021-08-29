@@ -94,6 +94,7 @@ export default {
     position: absolute;
     top: 50%;
     font-size: 12px;
+    font-weight: bold;
     transform: translate(7px, -50%);
   }
   .title {
@@ -124,6 +125,7 @@ export default {
     top: 50%;
     font-size: 12px;
     right: 12px;
+    font-weight: bold;
     transform: translate(0, -50%);
   }
 </style>

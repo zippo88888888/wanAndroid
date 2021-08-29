@@ -52,3 +52,7 @@
   -webkit-line-clamp: 2; /** 显示的行数 **/
   overflow: hidden;  /** 隐藏超出的内容 **/
 }
+.list-pr {
+  position: relative;
+  margin-bottom: 55px;
+}

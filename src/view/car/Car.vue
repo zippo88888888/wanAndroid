@@ -1,7 +1,7 @@
 <template>
   <div id="Car">
-    <ToolBar :title="title" :show-right-txt="true" :right-txt="rightTitle" :right-click="editClick"/>
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+    <ToolBar :title="title" :show-left-pic="false" :show-right-txt="true" :right-txt="rightTitle" :right-click="editClick"/>
+    <van-pull-refresh class="list-pr" v-model="isRefresh" @refresh="onRefresh">
       <div class="cell-layout">
         <!-- :before-close="beforeClose" -->
         <van-swipe-cell class="cell" ref="cell" v-for="(item,index) in carList" :key="index">
@@ -303,7 +303,7 @@ export default {
   .bottom-edit {
     position: fixed;/* fixed */
     width: 100%;
-    bottom: 0;
+    bottom: 55px;
     height: 50px;
     left: 0;
     z-index: 1;

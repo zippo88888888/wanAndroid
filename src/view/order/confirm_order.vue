@@ -2,7 +2,7 @@
   <div id="confirm_order">
     <ToolBar :title="title" />
     <div class="co-address" v-on:click="selectAddress" v-show="hasAddress">
-      <span class="co-address-d m-l m-r">默认</span>
+      <span class="co-address-d m-l m-r" v-show="addressBean.isDefault === 1">默认</span>
       <div class="co-address-a m-l">{{addressBean.address}}</div>
       <div class="co-address-info m-l m-r txt-2">{{addressBean.addressInfo}}</div>
       <div class="co-address-people m-t m-l m-r">{{addressBean.name}} {{addressBean.phone}}</div>
@@ -92,25 +92,26 @@ export default {
     }
   },
   created () {
+    // TODO 因为 跳转到地址管理页面，然后什么都不进行操作的话直接返回到确认订单页面，那么这个确认订单页面会重新加载、地址信息还是原来的
+    // TODO 没有任何改变，所以页面也会保持最开始的那样！不会有地址信息显示在界面上，害我在这里搞了半天
     var that = this
     eventBus.$on('selectedAddress', (data) => {
-      that.hasAddress = true
-      that.addressBean.id = data.id
-      that.addressBean.code = data.code
-      that.addressBean.name = data.name
-      that.addressBean.phone = data.phone
-      that.addressBean.address = data.address
-      that.addressBean.addressInfo = data.addressInfo
-      that.addressBean.isDefault = data.isDefault
-      Toast('' + that.hasAddress)
-      console.log('选择地址1 --->' + data)
-      console.log('选择地址2 --->' + that.addressBean)
-      console.log('hasAddress --->' + that.hasAddress)
+      if (data.id !== undefined) {
+        that.hasAddress = true
+        that.addressBean.id = data.id
+        that.addressBean.code = data.code
+        that.addressBean.name = data.name
+        that.addressBean.phone = data.phone
+        that.addressBean.address = data.address
+        that.addressBean.addressInfo = data.addressInfo
+        that.addressBean.isDefault = data.isDefault
+        console.log('收到 EventBus事件：selectedAddress --->' + data.addressInfo)
+      }
     })
   },
   beforeDestroy () {
-    // eventBus.$off('selectedAddress')
-    // console.log('销毁 EventBus事件：selectedAddress')
+    eventBus.$off('selectedAddress')
+    console.log('销毁 EventBus事件：selectedAddress')
   }
 }
 </script>
