@@ -1,14 +1,14 @@
 <template>
   <div id="confirm_order">
     <ToolBar :title="title" />
-    <div class="co-address" v-on:click="selectAddress" v-show="hasAddress">
+    <div class="co-address" v-on:click="selectAddress" v-show="hasAddress" v-bind:style="{marginTop: coAddressMarginTop + 'px'}">
       <span class="co-address-d m-l m-r" v-show="addressBean.isDefault === 1">默认</span>
       <div class="co-address-a m-l">{{addressBean.address}}</div>
       <div class="co-address-info m-l m-r txt-2">{{addressBean.addressInfo}}</div>
       <div class="co-address-people m-t m-l m-r">{{addressBean.name}} {{addressBean.phone}}</div>
       <img src="../../assets/ic_jt_y.png" alt="address">
     </div>
-    <div class="co-address2 m-t flex-row ct" v-on:click="selectAddress" v-show="!hasAddress">
+    <div class="co-address2 m-t flex-row ct" v-on:click="selectAddress" v-show="!hasAddress" v-bind:style="{marginTop: coAddressMarginTop + 'px'}">
       <img src="../../assets/add.png" alt="">
       <span>请先添加收货地址信息</span>
     </div>
@@ -56,6 +56,7 @@ export default {
   data () {
     return {
       title: '确认订单',
+      coAddressMarginTop: 57,
       showPayDialog: false,
       shopPrice: 1000, // 商品总价格
       orderNo: '', // 订单编号
@@ -108,6 +109,14 @@ export default {
         console.log('收到 EventBus事件：selectedAddress --->' + data.addressInfo)
       }
     })
+  },
+  mounted () {
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.coAddressMarginTop = 57 + statusBarHeight
+      }
+    }
   },
   beforeDestroy () {
     eventBus.$off('selectedAddress')
@@ -233,6 +242,7 @@ export default {
     background: white;
     padding-top: 7px;
     padding-bottom: 7px;
+    margin-bottom: 55px;
   }
   .co-order-ps {
     position: relative;
@@ -244,10 +254,13 @@ export default {
     right: 0;
   }
   .co-order-buy {
-    position: relative;
+    position: fixed;
     background: white;
-    margin-top: 14px;
-    height: 40px;
+    height: 45px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-top: #f2f2f2 solid 1px;
   }
   .co-order-box {
     position: absolute;
@@ -257,8 +270,8 @@ export default {
   }
   .co-order-xy {
     position: relative;
-    height: 40px;
-    line-height: 40px;
+    height: 45px;
+    line-height: 45px;
     color: black;
     font-size: 13px;
     margin-left: 30px;
@@ -269,8 +282,8 @@ export default {
   .co-order-pay {
     position: absolute;
     width: 100px;
-    height: 40px;
-    line-height: 40px;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
     background: chocolate;
     color: white;

@@ -1,35 +1,35 @@
 <template>
   <div id="address_edit">
    <ToolBar :title="title"/>
-     <div class="ae-l ae-l-height flex-row ct m-bar">
-      <span>收货人</span>
-      <input class="flex" type="text" placeholder="请输入收货人姓名" maxlength="20" v-model="name"/>
-    </div>
-    <div class="ae-l ae-l-height flex-row ct">
-      <span>收货人手机号</span>
-      <input class="flex" type="text" placeholder="请输入收货人手机号" maxlength="11" v-model="phone"/>
-    </div>
-    <div class="ae-l ae-l-height flex-row ct" v-on:click="selectedArea">
-      <span>地址信息</span>
-      <input class="flex txt-1" type="text" readonly placeholder="请选择" maxlength="50" v-model="address"/>
-      <img src="../../assets/ic_jt_y.png">
-    </div>
-    <div class="ae-l flex-row">
-      <span class="m-tt">详细地址</span>
-      <textarea class="flex m-tt m-bb" placeholder="如道路、门牌号、小区、楼栋号等" maxlength="80" v-model="addressInfo">
-      </textarea>
-    </div>
-    <div class="ae-l ae-l-height flex-row ct">
-      <span>邮编</span>
-      <input class="flex" type="text" placeholder="(非必填)请输入邮编" maxlength="6" v-model="code"/>
-    </div>
-    <div class="ae-l ae-l-height flex-row ct">
-      <span>设为默认</span>
-      <div class="flex"></div>
-      <van-switch v-model="isDefault" size="20px" />
-    </div>
-    <div class="ae-bottom"><button>确认</button></div>
-    <AreaDialog :show-dialog="areaDialogShow" @closeAreaDialog="closeAreaDialog" @selectedAreaResult="selectedAreaResult"/>
+   <div class="ae-l ae-l-height flex-row ct m-bar" v-bind:style="{marginTop : mTop + 'px'}">
+     <span>收货人</span>
+     <input class="flex" type="text" placeholder="请输入收货人姓名" maxlength="20" v-model="name"/>
+   </div>
+   <div class="ae-l ae-l-height flex-row ct">
+     <span>收货人手机号</span>
+     <input class="flex" type="text" placeholder="请输入收货人手机号" maxlength="11" v-model="phone"/>
+   </div>
+   <div class="ae-l ae-l-height flex-row ct" v-on:click="selectedArea">
+     <span>地址信息</span>
+     <input class="flex txt-1" type="text" readonly placeholder="请选择" maxlength="50" v-model="address"/>
+     <img src="../../assets/ic_jt_y.png">
+   </div>
+   <div class="ae-l flex-row">
+     <span class="m-tt">详细地址</span>
+     <textarea class="flex m-tt m-bb" placeholder="如道路、门牌号、小区、楼栋号等" maxlength="80" v-model="addressInfo">
+     </textarea>
+   </div>
+   <div class="ae-l ae-l-height flex-row ct">
+     <span>邮编</span>
+     <input class="flex" type="text" placeholder="(非必填)请输入邮编" maxlength="6" v-model="code"/>
+   </div>
+   <div class="ae-l ae-l-height flex-row ct">
+     <span>设为默认</span>
+     <div class="flex"></div>
+     <van-switch v-model="isDefault" size="20px" />
+   </div>
+   <div class="ae-bottom"><button>确认</button></div>
+   <AreaDialog :show-dialog="areaDialogShow" @closeAreaDialog="closeAreaDialog" @selectedAreaResult="selectedAreaResult"/>
   </div>
 </template>
 
@@ -46,6 +46,7 @@ export default {
   components: {AreaDialog, ToolBar},
   data () {
     return {
+      mTop: 57,
       areaDialogShow: false,
       title: '',
       id: '',
@@ -79,6 +80,12 @@ export default {
     this.addressInfo = params.addressInfo
     this.code = params.code
     this.isDefault = params.isDefault === 1
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.mTop = 57 + statusBarHeight
+      }
+    }
   }
 }
 </script>
@@ -133,26 +140,5 @@ export default {
   :-ms-input-placeholder {
     /* 修改input placeholder文字颜色 */
     color: #bebebe;
-  }
-  .ae-bottom {
-    position: fixed;
-    bottom: 0;
-    height: 60px;
-    width: 100%;
-    border-top: #f2f2f2 solid 1px;
-    background: white;
-  }
-  .ae-bottom button {
-    position: relative;
-    margin-top: 10px;
-    margin-left: 14px;
-    margin-right: 14px;
-    width: calc(100% - 14px * 2);
-    height: 40px;
-    background: #3379FD;
-    border-radius: 5px;
-    border-style: none;
-    color: white;
-    font-size: 14px;
   }
 </style>

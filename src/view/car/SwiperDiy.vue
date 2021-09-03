@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ToolBar :title="title" style="position: relative" :show-left-pic="false"/>
-    <swiper class="banner" ref="banner" :options="bannerOption">
+    <ToolBar :title="title" :show-left-pic="false"/>
+    <swiper class="banner" v-bind:style="{marginTop: bannerMarginTop + 'px'}" ref="banner" :options="bannerOption">
       <swiper-slide v-for="item in bannerList" :key="item.url">
         <img class="banner-item" alt="" v-bind:src="item.url"/>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-    <div class="zsq flex-row ct">
+    <div class="zsq flex-row ct" v-bind:style="{top: bannerMarginTop + 'px'}">
       <div class="flex zsq-unselected" :key="index" v-bind:class="[index === pageIndex ? 'zsq-selected' : '']"
            v-for="(item,index) in pageTitleList" v-on:click="pageItemClick(index)">{{item}}
       </div>
@@ -46,6 +46,7 @@ export default {
     const that = this
     return {
       title: '推荐',
+      bannerMarginTop: 50,
       bannerList: [{url: require('../../assets/banner1.png')}, {url: require('../../assets/banner2.jpg')},
         {url: require('../../assets/banner3.jpg')}, {url: require('../../assets/banner4.jpg')},
         {url: require('../../assets/banner5.jpg')}],
@@ -125,6 +126,12 @@ export default {
     }
   },
   mounted () {
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.bannerMarginTop = 50 + statusBarHeight
+      }
+    }
   }
 }
 </script>
@@ -133,6 +140,7 @@ export default {
   .banner {
     position: relative;
     height: 150px;
+    margin-top: 50px;
   }
   .banner-item {
     height: 100%;
@@ -144,7 +152,7 @@ export default {
     background: white;
     position: sticky;
     position: -webkit-sticky; /* Safari */
-    top: 0;
+    top: 50px;
     border-bottom-color: #f2f2f2;
     border-bottom-width: 1px;
     border-bottom-style: solid;

@@ -11,6 +11,8 @@ import Car from '../view/car/Car'
 import CO from '../view/order/confirm_order'
 import Address from '../view/order/address_list'
 import AddressEdit from '../view/order/address_edit'
+import OrderList from '../view/order/order_list'
+import OrderInfo from '../view/order/order_info'
 
 Vue.use(Router)
 
@@ -56,6 +58,16 @@ export default new Router({
       path: '/setup',
       name: '体系',
       component: setup
+    },
+    {
+      path: '/order',
+      name: '订单管理',
+      component: OrderList
+    },
+    {
+      path: '/order_info',
+      name: '订单详情',
+      component: OrderInfo
     },
     {
       path: '/corder',

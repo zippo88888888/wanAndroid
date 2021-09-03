@@ -2,7 +2,7 @@
   <div id="Car">
     <ToolBar :title="title" :show-left-pic="false" :show-right-txt="true" :right-txt="rightTitle" :right-click="editClick"/>
     <van-pull-refresh class="list-pr" v-model="isRefresh" @refresh="onRefresh">
-      <div class="cell-layout">
+      <div class="cell-layout" v-bind:style="{marginTop: cellMarginTop + 'px'}">
         <!-- :before-close="beforeClose" -->
         <van-swipe-cell class="cell" ref="cell" v-for="(item,index) in carList" :key="index">
           <div class="cell-item">
@@ -33,6 +33,7 @@
         <div class="shop-all-btn shop-all-del" v-on:click="deleteAll">删除选中</div>
       </div>
     </div>
+    <LoginDialog :show="showLoginDialog" @closeLoginDialog="closeLoginDialog"/>
   </div>
 </template>
 
@@ -40,6 +41,7 @@
 import Vue from 'vue'
 import ToolBar from '../../components/ToolBar'
 import {SwipeCell, Stepper, Checkbox, CheckboxGroup, PullRefresh, Dialog, Toast} from 'vant'
+import LoginDialog from '../../components/LoginDialog'
 Vue.use(SwipeCell)
 Vue.use(Stepper)
 Vue.use(Checkbox)
@@ -49,11 +51,13 @@ Vue.use(Dialog)
 Vue.use(Toast)
 export default {
   name: 'Car',
-  components: {ToolBar},
+  components: {LoginDialog, ToolBar},
   data () {
     return {
       title: '购物车',
       rightTitle: '编辑',
+      showLoginDialog: false,
+      cellMarginTop: 57,
       isRefresh: false,
       isEdit: false,
       allChecked: false,
@@ -84,6 +88,9 @@ export default {
     //     instance.close()
     //   }
     // },
+    closeLoginDialog: function () {
+      this.showLoginDialog = false
+    },
     onRefresh: function () {
       var that = this
       setTimeout(() => {
@@ -216,6 +223,17 @@ export default {
         Toast('请至少选中一个商品')
       }
     }
+  },
+  mounted () {
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.cellMarginTop = 57 + statusBarHeight
+      }
+    }
+    if (!this.userUtil.isLogin()) {
+      this.showLoginDialog = true
+    }
   }
 }
 </script>
@@ -301,7 +319,7 @@ export default {
     background: red;
   }
   .bottom-edit {
-    position: fixed;/* fixed */
+    position: fixed;
     width: 100%;
     bottom: 55px;
     height: 50px;

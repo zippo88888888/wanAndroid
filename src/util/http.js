@@ -4,7 +4,7 @@ import Axios from 'axios'
 import QS from 'qs'
 
 // 引入
-import { Toast, Indicator } from 'mint-ui'
+import {Toast} from 'vant'
 
 let Log = {
   showLog: function (msg) {
@@ -12,13 +12,27 @@ let Log = {
   }
 }
 
+let reqDialog = {
+  showDialog: function () {
+    Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      duration: 0,
+      overlay: true,
+      loadingType: 'spinner'
+    })
+  },
+  dismissDialog: function () {
+    Toast.clear()
+  }
+}
+
 let Req = {
   POST: function (url, param, loading, success) {
     if (loading) {
-      Indicator.open({
-        text: '加载中',
-        spinnerType: 'fading-circle'
-      })
+      if (loading) {
+        reqDialog.showDialog()
+      }
     }
     let headers = {}
     headers['orgin'] = 'H5'
@@ -44,16 +58,13 @@ let Req = {
       Log.showLog(error)
     }).finally(() => {
       if (loading) {
-        Indicator.close()
+        reqDialog.dismissDialog()
       }
     })
   },
   GET: function (url, param, loading, success) {
     if (loading) {
-      Indicator.open({
-        text: '加载中',
-        spinnerType: 'fading-circle'
-      })
+      reqDialog.showDialog()
     }
     let headers = {}
     headers['orgin'] = 'H5'
@@ -77,10 +88,14 @@ let Req = {
       Log.showLog(error)
     }).finally(() => {
       if (loading) {
-        Indicator.close()
+        reqDialog.dismissDialog()
       }
     })
   }
 }
 
-export default Req
+export {
+  Req,
+  Log
+}
+// export default Req

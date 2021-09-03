@@ -1,13 +1,16 @@
 <template>
-  <div class="bar">
-    <div class="left" v-on:click="back">
-      <img v-bind:src="leftPic" alt="back" v-show="showLeftPic">
-      <span v-show="showLeftTxt">{{leftTxt}}</span>
-    </div>
-    <div class="title">{{title}}</div>
-    <div class="right" v-on:click="rightClick">
-      <img v-bind:src="rightPic" alt="back" v-show="showRightPic">
-      <span v-show="showRightTxt">{{rightTxt}}</span>
+  <div class="bar" v-bind:style="{background: bgColor}">
+    <div class="status-bar" v-bind:style="{height: statusBar}"></div>
+    <div class="real-bar">
+      <div class="left" v-on:click="back">
+        <img v-bind:src="leftPic" alt="back" v-show="showLeftPic">
+        <span v-show="showLeftTxt">{{leftTxt}}</span>
+      </div>
+      <div class="title">{{title}}</div>
+      <div class="right" v-on:click="rightClick">
+        <img v-bind:src="rightPic" alt="back" v-show="showRightPic">
+        <span v-show="showRightTxt">{{rightTxt}}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +22,10 @@ export default {
     title: {
       type: String,
       default: '我是标题'
+    },
+    bgColor: {
+      type: String,
+      default: '#3379FD'
     },
     leftTxt: {
       type: String,
@@ -59,10 +66,23 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      statusBar: '0'
+    }
+  },
   methods: {
     back: function () {
       this.$router.onBack()
       console.log('back')
+    }
+  },
+  mounted () {
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.statusBar = statusBarHeight + 'px'
+      }
     }
   }
 }
@@ -71,11 +91,19 @@ export default {
 <style scoped>
   .bar {
     width: 100%;
-    height: 50px;
+    /*height: 50px;*/
     background: #3379FD;
     position: fixed;
     top: 0;
     z-index: 999;
+  }
+  .status-bar {
+    position: relative;
+  }
+  .real-bar {
+    position: relative;
+    width: 100%;
+    height: 50px;
   }
   .left {
     position: absolute;

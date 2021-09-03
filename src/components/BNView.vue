@@ -1,9 +1,11 @@
 <template>
-  <div id="BNView" class="flex-row ct">
-    <div class="bnv-item flex-column ct flex" v-on:click="itemClick(index)"
-         v-for="(item,index) in bnvList" :key="index">
-      <img v-bind:src="[index === selectedIndex ? item.pic2 : item.pic]" alt="">
-      <span v-bind:class="[index === selectedIndex ? 'bnv-selected' : '']">{{item.title}}</span>
+  <div id="BNView">
+    <div class="bnv-view flex-row ct">
+      <div class="bnv-item flex-column ct flex" v-on:click="itemClick(index)"
+           v-for="(item,index) in bnvList" :key="index">
+        <img v-bind:src="[index === selectedIndex ? item.pic2 : item.pic]" alt="">
+        <span v-bind:class="[index === selectedIndex ? 'bnv-selected' : '']">{{item.title}}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +38,7 @@ export default {
   data () {
     return {
       selectedIndex: 0,
+      bnvHeight: 0,
       bnvList: [
         {title: '首页', pic: require('../assets/home_sel.png'), pic2: require('../assets/home_sel2.png'), path: '/home'},
         {title: '推荐', pic: require('../assets/other_sel.png'), pic2: require('../assets/other_sel2.png'), path: '/sd'},
@@ -69,13 +72,16 @@ export default {
 
 <style scoped>
   #BNView {
-    height: 55px;
     border-top: #f2f2f2 solid 1px;
     background: white;
     position: fixed;
     width: 100%;
     bottom: 0;
     z-index: 999;
+  }
+  .bnv-view {
+    position: relative;
+    height: 55px;
   }
   .bnv-item {
     color: #91919C;
@@ -88,5 +94,8 @@ export default {
   }
   .bnv-selected {
     color: #3379FD;
+  }
+  .bnv-v2 {
+    position: relative;
   }
 </style>

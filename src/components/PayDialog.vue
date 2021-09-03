@@ -97,6 +97,8 @@ export default {
     position: relative;
     padding-left: 7px;
     padding-right: 7px;
+    color: black;
+    font-size: 14px;
   }
   .pd-row img {
     width: 20px;

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ToolBar :title='title' :show-left-pic="false"/>
-    <div class="banner">
+    <ToolBar :title='title' :show-left-pic="false" />
+    <div class="banner" v-bind:style="{marginTop: bannerMarginTop + 'px'}">
       <swiper :options="swiperOption">
         <swiperSlide class="swiper-slide" v-for="item in bannerList" :key="item.image" >
           <img :src="item.image" alt="" class="banner-item">
@@ -9,7 +9,7 @@
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
-    <div class="pop">
+    <div class="pop" v-bind:style="{top: bannerMarginTop + 'px'}">
       <div class="pop-1">
         <div v-bind:class="[category_type_index === index ? 'pop-item-selected' : 'pop-item']"
              v-for="(item,index) in category_types" :key="index" v-on:click="oneClick(item,index)">{{item.key}}</div>
@@ -27,8 +27,8 @@
           <div class="list-item m-r m-l m-b" v-for="item in infoList" :key="item._id">
             <img :src="item.images[0]" alt="" class="m-l">
             <div class="item-right">
-              <div class="item-title">{{item.title}}</div>
-              <div class="item-content">{{item.desc}}</div>
+              <div class="item-title txt-1">{{item.title}}</div>
+              <div class="item-content txt-2">{{item.desc}}</div>
               <div class="item-bottom">{{item.createdAt}}</div>
             </div>
           </div>
@@ -36,7 +36,6 @@
         </div>
       </van-list>
     </van-pull-refresh>
-    <!--<BNView :current-click="bnvItemClick" :current-click-again="bnvItemClickAgain"/>-->
   </div>
 </template>
 
@@ -46,16 +45,16 @@ import { PullRefresh, List } from 'vant'
 import 'swiper/dist/css/swiper.css'
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import ToolBar from '../components/ToolBar'
-import BNView from '../components/BNView'
+import LoadDialog from '../components/LoadDialog'
 Vue.use(PullRefresh)
 Vue.use(List)
 export default {
   name: 'home',
-  components: {BNView, ToolBar, swiper, swiperSlide},
+  components: {LoadDialog, ToolBar, swiper, swiperSlide},
   data () {
     return {
       title: '首页',
-      bnvIndex: 2,
+      bannerMarginTop: 50,
       swiperOption: {
         autoplay: { // 自动切换
           delay: 3000,
@@ -172,6 +171,9 @@ export default {
       const url = 'data/category/' + category + '/type/' + type + '/page/' + this.pageNo + '/count/' + this.pageSize
       this.http.GET(this.ROOT_URL + url, '', loading, response => {
         that.isFrist = false
+        if (loading) {
+          that.loadingShow = false
+        }
         if (that.state === 0) { // 刷新
           that.isRefresh = false
           that.infoList = response
@@ -189,6 +191,12 @@ export default {
   mounted () {
     this.getBanner()
     this.getClassify(true)
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.bannerMarginTop = 50 + statusBarHeight
+      }
+    }
   }
 }
 </script>
@@ -198,7 +206,7 @@ export default {
     position: relative;
     width: 100%;
     height: 150px;
-    top: 50px;
+    margin-top: 50px;
   }
   .banner-item {
     width: 100%;
@@ -208,7 +216,6 @@ export default {
   .pop {
     position: sticky;
     position: -webkit-sticky; /* Safari */
-    margin-top: 55px;
     top: 50px;
     z-index: 1;
   }
@@ -291,11 +298,6 @@ export default {
     top: 10px;
     font-size: 14px;
     margin-right: 3px;
-    /* 单行显示省略号 */
-    max-lines: 1;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
   }
   .item-content {
     position: relative;
@@ -304,12 +306,6 @@ export default {
     text-align: left;
     margin-right: 3px;
     color: #222222;
-    /* 多行显示省略号 */
-    text-overflow: ellipsis;
-    display: -webkit-box; /** 将对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 2; /** 显示的行数 **/
-    overflow: hidden;  /** 隐藏超出的内容 **/
   }
   .item-bottom {
     position: absolute;

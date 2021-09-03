@@ -1,24 +1,27 @@
 <template>
   <div id="address_list">
-    <ToolBar :title="title" :right-txt="rightTitle" :show-right-txt="true" :right-click="addAddress"/>
-    <div class="al-empty"></div>
-    <div class="al-list m-b" v-for="(item,index) in addressList" :key="index">
-      <div class="al-item-1" v-on:click="itemClick(item)">
-        <span class="al-item1-name m-t">{{item.name}}</span>
-        <span class="al-item1-mobile m-t">{{item.phone}}</span>
-      </div>
-      <div class="al-item-address m-t txt-2" v-on:click="itemClick(item)">{{item.address}}{{item.addressInfo}}</div>
-      <div class="line"></div>
-      <div class="al-item-call">
-        <span class="al-item-default" v-show="item.isDefault === 1">默认地址</span>
-        <div class="al-item-call-1 al-item-edit flex-row ct" v-on:click="editAddress(item)">
-          <img src="../../assets/ic_address_edit.png" alt="">编辑
+    <ToolBar :title="title"/>
+    <div class="al-empty" v-bind:style="{marginTop : emptyMarginTop + 'px'}"></div>
+    <div class="al-list">
+      <div class="al-list-d m-b" v-for="(item,index) in addressList" :key="index">
+        <div class="al-item-1" v-on:click="itemClick(item)">
+          <span class="al-item1-name m-t">{{item.name}}</span>
+          <span class="al-item1-mobile m-t">{{item.phone}}</span>
         </div>
-        <div class="al-item-call-1 al-item-del flex-row ct" v-on:click="deleteAddress(item,index)">
-          <img src="../../assets/ic_address_del.png" alt="">删除
+        <div class="al-item-address m-t txt-2" v-on:click="itemClick(item)">{{item.address}}{{item.addressInfo}}</div>
+        <div class="line"></div>
+        <div class="al-item-call">
+          <span class="al-item-default" v-show="item.isDefault === 1">默认地址</span>
+          <div class="al-item-call-1 al-item-edit flex-row ct" v-on:click="editAddress(item)">
+            <img src="../../assets/ic_address_edit.png" alt="">编辑
+          </div>
+          <div class="al-item-call-1 al-item-del flex-row ct" v-on:click="deleteAddress(item,index)">
+            <img src="../../assets/ic_address_del.png" alt="">删除
+          </div>
         </div>
       </div>
     </div>
+    <div class="ae-bottom" v-on:click="addAddress"><button>新增</button></div>
   </div>
 </template>
 
@@ -35,8 +38,8 @@ export default {
   data () {
     return {
       title: '地址管理',
-      rightTitle: '新增',
-      type: 0, // 1表示 确认订单
+      emptyMarginTop: 57,
+      type: 0, // 0表示从个人中心跳转；1表示 确认订单
       waitSelectedAddressBean: {},
       addressList: [
         {id: '1', code: '', name: '张三0', phone: '17809892234', address: '上海市上海市黄浦区', addressInfo: '青黄岛路上海市黄浦区青黄岛路', isDefault: 1},
@@ -98,6 +101,14 @@ export default {
     this.type = type
     console.log('跳转到地址管理 this.type ---> ' + this.type)
   },
+  mounted () {
+    if (this.phoneType.isApp()) {
+      if (this.phoneType.isAndroid()) {
+        var statusBarHeight = window.ops.getSBarHeight()
+        this.emptyMarginTop = 57 + statusBarHeight
+      }
+    }
+  },
   beforeDestroy () {
     var that = this
     if (this.type.toString() === '1' && this.waitSelectedAddressBean.id !== undefined) {
@@ -125,6 +136,10 @@ export default {
     margin-top: 57px;
   }
   .al-list {
+    position: relative;
+    margin-bottom: 67px;
+  }
+  .al-list-d {
     background: white;
     position: relative;
   }
