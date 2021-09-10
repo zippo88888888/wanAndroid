@@ -40,7 +40,7 @@ let PhoneType = {
   },
   getApp: function () {
     var isApp = localStorage.getItem('isApp')
-    if (isApp === '' || isApp === undefined) {
+    if (isApp === '' || isApp === undefined || isApp === null) {
       isApp = '0'
     }
     return isApp

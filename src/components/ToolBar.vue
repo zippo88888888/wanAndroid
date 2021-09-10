@@ -33,7 +33,7 @@ export default {
     },
     leftPic: {
       type: String,
-      default: require('../assets/back.png')
+      default: require('../assets/svg/back_w.svg')
     },
     showLeftTxt: {
       type: Boolean,
@@ -74,7 +74,6 @@ export default {
   methods: {
     back: function () {
       this.$router.onBack()
-      console.log('back')
     }
   },
   mounted () {
@@ -111,11 +110,11 @@ export default {
     height: 100%;
   }
   .left img {
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: 22px;
     position: absolute;
-    left: 7px;
-    top: 10px;
+    left: 12px;
+    top: 14px;
   }
   .left span {
     color: white;

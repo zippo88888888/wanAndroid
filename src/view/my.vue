@@ -16,7 +16,7 @@
         <span>{{item.title}}</span>
       </div>
     </div>
-    <LoginDialog :show="loginDialogShow" @closeLoginDialog="closeLoginDialog"/>
+    <LoginDialog :show="loginDialogShow" :show-toast="noLoginShowToast" @closeLoginDialog="closeLoginDialog"/>
   </div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
     return {
       mlMarginTop: 50,
       loginDialogShow: false,
+      noLoginShowToast: true,
       myList: [
         {title: '地址管理', icon: require('../assets/ic_address.png'), type: 0},
         {title: '发票管理', icon: require('../assets/ic_fpgl.png'), type: 1},
@@ -66,7 +67,6 @@ export default {
         this.log.showLog('nothing')
       } else {
         if (!this.userUtil.isLogin()) {
-          Toast('请先去登录')
           this.loginDialogShow = true
           return
         }

@@ -41,6 +41,10 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    showToast: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -60,14 +64,17 @@ export default {
       }
     },
     reigster: function () {
+      this.$router.push({
+        path: '/register'
+      })
       this.$emit('closeLoginDialog')
     },
     checkData: function () {
-      if (this.uName === '' || this.uName.length <= 0) {
+      if (this.utils.isNull(this.uName)) {
         Toast('请输入用户名')
         return false
       }
-      if (this.uPwd === '' || this.uPwd.length <= 0) {
+      if (this.utils.isNull(this.uPwd)) {
         Toast('请输入密码')
         return false
       }
@@ -81,6 +88,13 @@ export default {
     },
     closeDialog: function () {
       this.$emit('closeLoginDialog')
+    }
+  },
+  watch: {
+    show: function (newVal) {
+      if (newVal && this.showToast) {
+        Toast('请先去登录')
+      }
     }
   }
 }

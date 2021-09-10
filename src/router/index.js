@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import mainIndex from '../view/main_index'
+import register from '../view/login/register'
 import home from '../view/home'
 import question from '../view/question'
 import setup from '../view/setup'
@@ -48,6 +49,11 @@ export default new Router({
           component: my
         }
       ]
+    },
+    {
+      path: '/register',
+      name: '注册',
+      component: register
     },
     {
       path: '/question',

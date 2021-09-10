@@ -2,7 +2,7 @@
 let UserUtil = {
   isLogin: function () {
     var isLogin = localStorage.getItem('isLogin')
-    if (isLogin === '' || isLogin === undefined) {
+    if (isLogin === '' || isLogin === undefined || isLogin === null) {
       isLogin = '0'
     }
     return isLogin === '1'
@@ -12,7 +12,7 @@ let UserUtil = {
   },
   getToken: function () {
     var token = localStorage.getItem('userToken')
-    if (token === '' || token === undefined) {
+    if (token === '' || token === undefined || token === null) {
       token = 'nothing'
     }
     return token
@@ -22,7 +22,7 @@ let UserUtil = {
   },
   getUserInfo: function () {
     var data = localStorage.getItem('userData')
-    if (data === '' || data === undefined) {
+    if (data === '' || data === undefined || data === null) {
       data = '{}'
     }
     return data

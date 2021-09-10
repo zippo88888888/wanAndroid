@@ -27,12 +27,14 @@ import VueAxios from 'vue-axios'
 import {Req, Log} from './util/http.js'
 import phoneType from './util/phoneType.js'
 import userUtil from './util/userUtil'
+import utils from './util/utils'
 
 Vue.prototype.ROOT_URL = 'https://gank.io/api/v2/'
 Vue.prototype.http = Req
 Vue.prototype.axios = Aaxios
 Vue.prototype.phoneType = phoneType
 Vue.prototype.userUtil = userUtil
+Vue.prototype.utils = utils
 Vue.prototype.log = Log
 
 Vue.config.productionTip = false

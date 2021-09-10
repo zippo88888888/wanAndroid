@@ -33,7 +33,7 @@
         <div class="shop-all-btn shop-all-del" v-on:click="deleteAll">删除选中</div>
       </div>
     </div>
-    <LoginDialog :show="showLoginDialog" @closeLoginDialog="closeLoginDialog"/>
+    <LoginDialog :show="showLoginDialog" :show-toast="noLoginShowToast" @closeLoginDialog="closeLoginDialog"/>
   </div>
 </template>
 
@@ -57,12 +57,14 @@ export default {
       title: '购物车',
       rightTitle: '编辑',
       showLoginDialog: false,
+      noLoginShowToast: true,
       cellMarginTop: 57,
       isRefresh: false,
       isEdit: false,
       allChecked: false,
       allPrice: 0,
-      carList: [
+      carList: [],
+      carList2: [
         {shopName: '机械键盘-红轴-二次元', shopSku: '红轴-红色撞色', price: 1000, count: 1, checked: false},
         {shopName: '机械键盘-青轴-両西', shopSku: '青轴-灰色黄色撞色', price: 1999, count: 1, checked: false},
         {shopName: '罗技电竞鼠标-G920', shopSku: 'G920', price: 899, count: 1, checked: false},
@@ -90,6 +92,9 @@ export default {
     // },
     closeLoginDialog: function () {
       this.showLoginDialog = false
+      if (this.userUtil.isLogin()) {
+        this.carList = this.carList2
+      }
     },
     onRefresh: function () {
       var that = this
@@ -105,6 +110,10 @@ export default {
       }, 300)
     },
     editClick: function () {
+      if (!this.userUtil.isLogin()) {
+        this.showLoginDialog = true
+        return
+      }
       this.isEdit = !this.isEdit
       this.rightTitle = this.isEdit ? '完成' : '编辑'
       this.allChecked = false
@@ -177,12 +186,20 @@ export default {
       return selectedList
     },
     allBoxClick: function () {
+      if (!this.userUtil.isLogin()) {
+        this.showLoginDialog = true
+        return
+      }
       this.carList.forEach(item => {
         item.checked = this.allChecked
       })
       this.getSelectedPrice()
     },
     toBuy: function () {
+      if (!this.userUtil.isLogin()) {
+        this.showLoginDialog = true
+        return
+      }
       var selectedList = this.getSelectedList()
       if (selectedList.length > 0) {
         selectedList.forEach(item => {
@@ -233,6 +250,8 @@ export default {
     }
     if (!this.userUtil.isLogin()) {
       this.showLoginDialog = true
+    } else {
+      this.carList = this.carList2
     }
   }
 }
